@@ -1,0 +1,111 @@
+.lessons-page {
+  min-height: 100vh;
+  background-image: url('/backgrounds/Background2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: calc(var(--safe-top) + var(--spacing-xl)) var(--spacing-md) calc(var(--safe-bottom) + var(--spacing-xl));
+}
+
+.lessons-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.lessons-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: white;
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.lessons-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+}
+
+.lesson-card {
+  text-align: center;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.lesson-card-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.lesson-card-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.lesson-card-count {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* Tablet - 2 columns */
+@media (min-width: 768px) {
+  .lessons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .lesson-card {
+    min-height: 220px;
+  }
+
+  .lesson-card-icon {
+    font-size: 4rem;
+  }
+
+  .lesson-card-title {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Desktop - 3 columns */
+@media (min-width: 1024px) {
+  .lessons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lesson-card {
+    min-height: 240px;
+  }
+}
+
+/* Height-constrained screens */
+@media (max-height: 640px) {
+  .lessons-page {
+    padding: calc(var(--safe-top) + var(--spacing-md)) var(--spacing-md) calc(var(--safe-bottom) + var(--spacing-md));
+  }
+
+  .lessons-title {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .lesson-card {
+    min-height: 140px;
+  }
+
+  .lesson-card-icon {
+    font-size: 2.5rem;
+  }
+}

@@ -1,0 +1,164 @@
+.guide-page {
+  min-height: 100vh;
+  background-image: url('/backgrounds/Background2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: calc(var(--safe-top) + var(--spacing-xl)) var(--spacing-md) calc(var(--safe-bottom) + var(--spacing-xl));
+  position: relative;
+}
+
+.guide-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.guide-card {
+  background-color: white;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-xl);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.guide-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Steps */
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.guide-step {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.guide-step-number {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.guide-step-content {
+  flex: 1;
+}
+
+.guide-step-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.guide-step-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* About */
+.guide-about,
+.guide-contact {
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-light);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.guide-about-title,
+.guide-contact-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.guide-about-text,
+.guide-contact-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTA */
+.guide-cta {
+  text-align: center;
+  margin-top: var(--spacing-xl);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .guide-card {
+    padding: var(--spacing-2xl);
+  }
+
+  .guide-title {
+    font-size: var(--font-size-4xl);
+  }
+
+  .guide-step-number {
+    width: 56px;
+    height: 56px;
+    font-size: var(--font-size-xl);
+  }
+
+  .guide-step-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .guide-step-text {
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-height: 640px) {
+  .guide-page {
+    padding: var(--spacing-md);
+  }
+
+  .guide-card {
+    padding: var(--spacing-md);
+  }
+
+  .guide-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .guide-steps {
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .guide-step-number {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-base);
+  }
+}

@@ -1,0 +1,39 @@
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-base),
+              background-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.icon-button:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-lg);
+}
+
+.icon-button:active {
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-text);
+}
+
+/* Focus visible */
+.icon-button:focus-visible {
+  outline: 2px solid var(--state-focus);
+  outline-offset: 2px;
+}

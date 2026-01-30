@@ -1,0 +1,174 @@
+.home-page {
+  min-height: 100vh;
+  height: 100vh;
+  background-image: url('/backgrounds/Background1.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative elements */
+.decorations {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.decoration {
+  position: absolute;
+  font-size: 3rem;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.decoration-1 {
+  top: 10%;
+  left: 10%;
+}
+
+.decoration-2 {
+  bottom: 20%;
+  right: 20%;
+}
+
+.decoration-3 {
+  top: 33%;
+  right: 10%;
+}
+
+.decoration-4 {
+  bottom: 33%;
+  left: 20%;
+}
+
+/* Main Container - Flexbox Layout */
+.home-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* Header Section */
+.home-header {
+  flex: 0 0 auto;
+  text-align: center;
+  padding-top: calc(var(--safe-top) + 10vh);
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.home-emoji {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.home-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin: 0;
+  padding: 0 var(--spacing-md);
+  line-height: 1.2;
+}
+
+/* Main Section - Illustration */
+.home-main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.home-illustration {
+  max-width: 460px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 460 / 440;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
+  animation: fadeIn 1s ease-out;
+}
+
+/* Footer Section - CTA Button */
+.home-footer {
+  flex: 0 0 auto;
+  text-align: center;
+  padding-bottom: calc(var(--safe-bottom) + 12vh);
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .home-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .home-emoji {
+    font-size: 3rem;
+  }
+
+  .home-illustration {
+    max-width: 360px;
+  }
+
+  .decoration {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .home-title {
+    font-size: var(--font-size-4xl);
+  }
+
+  .home-emoji {
+    font-size: 5rem;
+  }
+}
+
+/* Height-constrained screens */
+@media (max-height: 640px) {
+  .home-header {
+    padding-top: calc(var(--safe-top) + var(--spacing-lg));
+  }
+
+  .home-footer {
+    padding-bottom: calc(var(--safe-bottom) + var(--spacing-xl));
+  }
+
+  .home-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .home-emoji {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .home-illustration {
+    max-width: 300px;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .decoration {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  .home-header,
+  .home-main,
+  .home-footer {
+    animation: none;
+    opacity: 1;
+  }
+}

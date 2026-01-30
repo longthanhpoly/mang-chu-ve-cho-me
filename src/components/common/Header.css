@@ -1,0 +1,242 @@
+/* Header Icons */
+.header-icons {
+  position: fixed;
+  top: calc(var(--safe-top) + var(--spacing-md));
+  right: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+  z-index: var(--z-sticky);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  padding: var(--spacing-md);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-xl);
+  max-width: 400px;
+  width: 100%;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Settings Modal */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.setting-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.setting-label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.icon-toggle {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-toggle:hover {
+  background-color: var(--state-hover);
+}
+
+.icon-toggle:active {
+  background-color: var(--state-active);
+}
+
+.icon-red {
+  width: 24px;
+  height: 24px;
+  color: var(--color-error);
+}
+
+.icon-teal {
+  width: 24px;
+  height: 24px;
+  color: #14B8A6;
+}
+
+/* Volume Slider */
+.volume-slider {
+  width: 100%;
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #14B8A6;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #14B8A6;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.volume-slider:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.volume-slider:disabled::-webkit-slider-thumb {
+  cursor: not-allowed;
+  background-color: var(--color-text-light);
+}
+
+.volume-slider:disabled::-moz-range-thumb {
+  cursor: not-allowed;
+  background-color: var(--color-text-light);
+}
+
+.volume-value {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+/* Share Buttons */
+.share-button {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: 48px;
+}
+
+.share-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.share-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.share-facebook {
+  background-color: #1877F2;
+  color: white;
+}
+
+.share-facebook:hover {
+  background-color: #166FE5;
+}
+
+.share-tiktok {
+  background-color: #000000;
+  color: white;
+}
+
+.share-tiktok:hover {
+  background-color: #1a1a1a;
+}
+
+.share-twitter {
+  background-color: #1DA1F2;
+  color: white;
+}
+
+.share-twitter:hover {
+  background-color: #1A91DA;
+}
+
+.share-copy {
+  background-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.share-copy:hover {
+  background-color: #d5d5d5;
+}
+
+.share-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-height: 640px) {
+  .header-icons {
+    top: var(--spacing-sm);
+  }
+  
+  .modal-content {
+    padding: var(--spacing-md);
+  }
+  
+  .modal-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+  }
+}
