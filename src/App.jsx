@@ -12,6 +12,7 @@ import QuizLogin from './pages/QuizLogin';
 import Quiz from './pages/Quiz';
 import Result from './pages/Result';
 import Guide from './pages/Guide';
+import MathBasic from './pages/MathBasic';
 
 // Styles
 import './styles/theme.css';
@@ -27,6 +28,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/lessons" element={<Lessons />} />
             <Route path="/lessons/:lessonId" element={<LessonDetail />} />
+            <Route path="/math-basic" element={<MathBasic />} />
             <Route path="/quiz-login" element={<QuizLogin />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/result" element={<Result />} />

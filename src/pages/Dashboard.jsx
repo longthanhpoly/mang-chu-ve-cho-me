@@ -17,6 +17,12 @@ const Dashboard = () => {
       path: '/lessons'
     },
     {
+      id: 'math',
+      title: 'Toán Cơ Bản',
+      icon: '🔢',
+      path: '/math-basic'
+    },
+    {
       id: 'quiz',
       title: 'Kiểm Tra',
       icon: '✍️',

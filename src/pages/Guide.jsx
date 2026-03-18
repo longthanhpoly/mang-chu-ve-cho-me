@@ -85,7 +85,7 @@ const Guide = () => {
             <h2 className="guide-contact-title">Liên Hệ</h2>
             <p className="guide-contact-text">
               Nếu bạn có câu hỏi hoặc góp ý, vui lòng liên hệ:<br />
-              Email: contact@example.com
+              Email: nhatlinhtl@gmail.com
             </p>
           </div>
 
