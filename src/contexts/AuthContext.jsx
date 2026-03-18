@@ -1,14 +1,20 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  updateProfile
+} from 'firebase/auth';
+import { auth, googleProvider } from '../firebase';
 import { isTeacher as checkIsTeacher } from '../data/teachers';
-import { saveAuthState, loadAuthState, clearAuthState } from '../utils/storage';
 
 const AuthContext = createContext(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider');
-  }
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
   return context;
 };
 
@@ -16,175 +22,109 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load auth state on mount
+  // Lắng nghe trạng thái đăng nhập từ Firebase
   useEffect(() => {
-    const savedAuth = loadAuthState();
-    if (savedAuth) {
-      setUser(savedAuth);
-    }
-    setIsLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const role = checkIsTeacher(firebaseUser.email) ? 'teacher' : 'student';
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: firebaseUser.displayName || null,
+          photoURL: firebaseUser.photoURL || null,
+          role,
+          provider: firebaseUser.providerData[0]?.providerId || 'unknown',
+          // displayName dùng cho học viên nhập tên riêng khi làm bài
+          displayName: role === 'teacher' ? (firebaseUser.displayName || firebaseUser.email) : null,
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  // Save auth state whenever it changes
-  useEffect(() => {
-    if (user) {
-      saveAuthState(user);
-    } else {
-      clearAuthState();
-    }
-  }, [user]);
-
-  /**
-   * Determine user role based on email
-   * @param {string} email - User email
-   * @returns {string} 'teacher' or 'student'
-   */
-  const determineRole = (email) => {
-    return checkIsTeacher(email) ? 'teacher' : 'student';
-  };
-
-  /**
-   * Sign in with Google
-   * Placeholder - would integrate with Google OAuth in production
-   */
+  // Đăng nhập bằng Google
   const signInWithGoogle = async () => {
-    // Placeholder implementation
-    // In production, this would use Google OAuth
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulated Google sign-in
-        // Change email to test different roles:
-        // - 'nhatlinhtl@gmail.com' for teacher
-        // - 'student@example.com' for student
-        const mockEmail = 'student@example.com';
-        const role = determineRole(mockEmail);
-        
-        const userData = {
-          email: mockEmail,
-          name: role === 'teacher' ? 'Giáo Viên' : null,
-          role,
-          provider: 'google',
-          displayName: null // Student will need to enter name
-        };
-        
-        setUser(userData);
-        resolve(userData);
-      }, 500); // Reduced delay for better UX
-    });
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      return result.user;
+    } catch (err) {
+      // Người dùng tắt popup — không coi là lỗi nghiêm trọng
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        throw new Error('Bạn đã đóng cửa sổ đăng nhập. Vui lòng thử lại.');
+      }
+      if (err.code === 'auth/popup-blocked') {
+        throw new Error('Trình duyệt đã chặn popup. Vui lòng cho phép popup và thử lại.');
+      }
+      throw new Error('Đăng nhập Google thất bại. Vui lòng thử lại.');
+    }
   };
 
-  /**
-   * Sign in with email/password
-   * Placeholder - would integrate with backend in production
-   */
+  // Đăng nhập bằng email/password
   const signInWithEmail = async (email, password) => {
-    // Placeholder implementation
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!email || !password) {
-          reject(new Error('Email và mật khẩu không được để trống'));
-          return;
-        }
-        
-        const role = determineRole(email);
-        
-        const userData = {
-          email,
-          name: role === 'teacher' ? 'Teacher User' : 'Student User',
-          role,
-          provider: 'email',
-          displayName: role === 'teacher' ? 'Teacher User' : null
-        };
-        
-        setUser(userData);
-        resolve(userData);
-      }, 1000);
-    });
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result.user;
+    } catch (err) {
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        throw new Error('Email hoặc mật khẩu không đúng.');
+      }
+      if (err.code === 'auth/invalid-email') {
+        throw new Error('Định dạng email không hợp lệ.');
+      }
+      if (err.code === 'auth/too-many-requests') {
+        throw new Error('Quá nhiều lần thử. Vui lòng đợi một lúc rồi thử lại.');
+      }
+      throw new Error('Đăng nhập thất bại. Vui lòng thử lại.');
+    }
   };
 
-  /**
-   * Sign up with email/password
-   * Placeholder - would integrate with backend in production
-   */
+  // Đăng ký tài khoản mới bằng email/password
   const signUpWithEmail = async (email, password, displayName) => {
-    // Placeholder implementation
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!email || !password) {
-          reject(new Error('Email và mật khẩu không được để trống'));
-          return;
-        }
-        
-        if (!displayName && determineRole(email) !== 'teacher') {
-          reject(new Error('Vui lòng nhập tên của bạn'));
-          return;
-        }
-        
-        const role = determineRole(email);
-        
-        const userData = {
-          email,
-          name: displayName || 'New User',
-          role,
-          provider: 'email',
-          displayName: role === 'student' ? displayName : null
-        };
-        
-        setUser(userData);
-        resolve(userData);
-      }, 1000);
-    });
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      // Cập nhật tên hiển thị trên Firebase
+      if (displayName) {
+        await updateProfile(result.user, { displayName });
+      }
+      return result.user;
+    } catch (err) {
+      if (err.code === 'auth/email-already-in-use') {
+        throw new Error('Email này đã được dùng. Hãy đăng nhập hoặc dùng email khác.');
+      }
+      if (err.code === 'auth/weak-password') {
+        throw new Error('Mật khẩu quá yếu. Vui lòng dùng ít nhất 6 ký tự.');
+      }
+      if (err.code === 'auth/invalid-email') {
+        throw new Error('Định dạng email không hợp lệ.');
+      }
+      throw new Error('Đăng ký thất bại. Vui lòng thử lại.');
+    }
   };
 
-  /**
-   * Update user display name
-   * Required for students before taking quiz
-   */
+  // Cập nhật tên học viên (nhập trước khi làm bài)
   const updateDisplayName = (displayName) => {
     if (!user) return;
-    
-    const updatedUser = {
-      ...user,
-      displayName
-    };
-    
-    setUser(updatedUser);
+    setUser((prev) => ({ ...prev, displayName }));
   };
 
-  /**
-   * Sign out
-   */
-  const signOut = () => {
-    setUser(null);
-    clearAuthState();
-    // Also clear quiz state when signing out
+  // Đăng xuất
+  const signOut = async () => {
     try {
+      await firebaseSignOut(auth);
+      // Xoá trạng thái quiz khi đăng xuất
       localStorage.removeItem('quiz_state');
-    } catch (e) {
-      console.error('Failed to clear quiz state:', e);
+    } catch (err) {
+      console.error('Sign out error:', err);
     }
   };
 
-  /**
-   * Check if user is authenticated
-   */
-  const isAuthenticated = () => {
-    return user !== null;
-  };
-
-  /**
-   * Check if user is teacher
-   */
-  const isTeacher = () => {
-    return user?.role === 'teacher';
-  };
-
-  /**
-   * Check if user is student
-   */
-  const isStudent = () => {
-    return user?.role === 'student';
-  };
+  const isAuthenticated = () => user !== null;
+  const isTeacher = () => user?.role === 'teacher';
+  const isStudent = () => user?.role === 'student';
 
   const value = {
     user,
@@ -196,12 +136,12 @@ export const AuthProvider = ({ children }) => {
     signOut,
     isAuthenticated,
     isTeacher,
-    isStudent
+    isStudent,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };
